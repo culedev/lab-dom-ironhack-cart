@@ -35,19 +35,46 @@ function calculateAll() {
 function removeProduct(event) {
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
-  const removeBtns = document.querySelectorAll('.btn-remove');
-  removeBtns.forEach((btn) => {
-    if (btn === target) {
-      btn.parentNode.parentNode.remove();
-      calculateAll();
-    }
-  });
+  // const removeBtns = document.querySelectorAll('.btn-remove');
+
+  target.parentNode.parentNode.remove();
+  calculateAll();
 }
 
 // ITERATION 5
 
 function createProduct() {
-  //... your code goes here
+  const newInputName = document.querySelector('#product-name');
+  const newInputPrice = document.querySelector('#product-price');
+
+  const nameValue = newInputName.value;
+  const priceValue = newInputPrice.value;
+
+  const tBodyDOM = document.querySelector('tbody');
+  const newProduct = document.createElement('tr');
+  newProduct.className = 'product';
+
+  newProduct.innerHTML = `
+  <td class="name">
+    <span>${nameValue}</span>
+  </td>
+  <td class="price">$<span>${priceValue}</span></td>
+  <td class="quantity">
+    <input type="number" value="0" min="0" placeholder="Quantity" />
+  </td>
+  <td class="subtotal">$<span>0</span></td>
+  <td class="action">
+  <button class="btn btn-remove">Remove</button>
+  </td>
+  `;
+
+  const deleteBtns = newProduct.querySelector('.btn-remove');
+  deleteBtns.addEventListener('click', removeProduct);
+
+  newInputName.value = '';
+  newInputPrice.value = '';
+
+  tBodyDOM.append(newProduct);
 }
 
 window.addEventListener('load', () => {
@@ -58,4 +85,7 @@ window.addEventListener('load', () => {
   deleteBtns.forEach((btn) => {
     btn.addEventListener('click', removeProduct);
   });
+
+  const createProducts = document.querySelector('#create');
+  createProducts.addEventListener('click', createProduct);
 });
